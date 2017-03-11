@@ -9,7 +9,7 @@ MongoClient.connect(config.dbUrl)
 
     router.get('/:managerId', (req, res) => {
       if (req.params) {
-        db.collection('comments').findOne({ manager_id: req.params.mangagerId })
+        db.collection('comments').findOne({ manager_id: +req.params.mangagerId })
           .then(doc => res.json(doc))
           .catch(err => res.sendStatus(500));
       } else {

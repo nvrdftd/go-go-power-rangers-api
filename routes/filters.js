@@ -9,7 +9,7 @@ MongoClient.connect(config.dbUrl)
     router.get('/:managerId', (req, res) => {
       if (res.params.managerId) {
         const query = {
-          manager_id: req.params.managerId,
+          manager_id: +req.params.managerId,
         }
         db.collection('filters')
           .findOne(query)
@@ -21,7 +21,7 @@ MongoClient.connect(config.dbUrl)
     });
 
     router.post('/update', (req, res) => {
-      const query = { manager_id: req.body.manager_id }
+      const query = { manager_id: +req.body.manager_id }
       const update = {
         $set: {
           price_range: req.body.price_range,
