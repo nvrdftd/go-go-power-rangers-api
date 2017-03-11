@@ -7,9 +7,9 @@ var router = require('express').Router(),
 MongoClient.connect(config.dbUrl)
   .then(db => {
     router.get('/:managerId', (req, res) => {
-      if (res.params.managerId) {
+      if (req.params.managerId) {
         const query = {
-          manager_id: +req.params.managerId,
+          manager_id: +req.params.managerId
         }
         db.collection('filters')
           .findOne(query)
