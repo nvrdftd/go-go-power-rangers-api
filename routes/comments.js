@@ -9,7 +9,7 @@ MongoClient.connect(config.dbUrl)
 
     router.get('/:managerId', (req, res) => {
       if (req.params) {
-        db.collection('comments').findOne({ manager_id: +req.params.mangagerId })
+        db.collection('comments').findOne({ manager_id: +req.params.managerId })
           .then(doc => res.json(doc))
           .catch(err => res.sendStatus(500));
       } else {
@@ -20,20 +20,20 @@ MongoClient.connect(config.dbUrl)
     router.post('/add', (req, res) => {
       if (req.body) {
         const query = {
-          'manager_id': req.body.mangagerId,
+          'manager_id': req.body.managerId,
           'hotel_entities.hotel_id': req.body.hotel_id
         };
 
-        const doc = {
+        const comment = {
           user_id: req.body.user_id,
           text: req.body.text
         }
         const update = {
-          $addToSet: { 'hotel_entities.comments': doc }
+          $addToSet: { 'hotel_entities.comments': comment }
         }
-        db.collection('comments').findOneAndUpdate(filter, update, { upsert: true })
-          .then(r => console.log(r))
-          .catch(err => console.log(err));
+        db.collection('comments').findOneAndUpdate(query, update, { upsert: true })
+          .then(r => res.sendStatus(200))
+          .catch(err => res.sendStatus(500));
       } else {
         res.sendStatus(400);
       }
