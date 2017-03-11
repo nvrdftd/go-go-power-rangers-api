@@ -27,7 +27,7 @@ if (cluster.isMaster) {
       app.use('/api/filters', require('./routes/filters'));
       app.use('/api/comments', require('./routes/comments'));
       app.use('/api/user/:id', (req, res) => {
-        db.collection('users').findOne({ user_id: req.params.id })
+        db.collection('users').findOne({ user_id: +req.params.id })
           .then(doc => res.json({ img_url: doc.img_url }))
           .catch(err => res.sendStatus(500));
       });
