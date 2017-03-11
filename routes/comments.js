@@ -20,13 +20,18 @@ MongoClient.connect(config.dbUrl)
     router.post('/add', (req, res) => {
       if (req.body) {
         const query = {
-          manager_id: req.body.mangagerId,
-          'comments.hotel_id': req.body.hotelId
+          'manager_id': req.body.mangagerId,
+          'hotel_entities.hotel_id': req.body.hotel_id
         };
-        const update = {
-          $addToSet: { 'comments.hotel_id': req.body.comment }
+
+        const doc = {
+          user_id: req.body.user_id,
+          text: req.body.text
         }
-        db.collection('comments').insertOne(filter, update, { upsert: true })
+        const update = {
+          $addToSet: { 'hotel_entities.comments': doc }
+        }
+        db.collection('comments').findOneAndUpdate(filter, update, { upsert: true })
           .then(r => console.log(r))
           .catch(err => console.log(err));
       } else {
