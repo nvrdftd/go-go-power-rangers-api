@@ -12,7 +12,7 @@ MongoClient.connect(config.dbUrl)
           manager_id: req.params.managerId,
         }
         db.collection('filters')
-          .find(query)
+          .findOne(query)
           .then(doc => res.json(doc))
           .catch(err => res.sendStatus(500));
       } else {
@@ -32,7 +32,6 @@ MongoClient.connect(config.dbUrl)
         .then(r => res.sendStatus(200))
         .catch(err => res.sendStatus(500));
     });
-    module.exports = router;
   })
   .catch(err => console.log(err));
 module.exports = router;
