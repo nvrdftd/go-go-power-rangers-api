@@ -25,7 +25,9 @@ MongoClient.connect(config.dbUrl)
       const update = {
         $set: {
           price_range: req.body.price_range,
-          review_scores: req.body.review_scores
+          review_score: req.body.review_score,
+          facility: req.body.facility,
+          current_filter: req.body.current_filter
         }
       }
       db.collection('filters').findOneAndUpdate(query, update)
