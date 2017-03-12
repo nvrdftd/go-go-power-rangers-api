@@ -23,12 +23,7 @@ MongoClient.connect(config.dbUrl)
     router.post('/update', (req, res) => {
       const query = { manager_id: +req.body.manager_id }
       const update = {
-        $set: {
-          price_range: req.body.price_range,
-          review_score: req.body.review_score,
-          facility: req.body.facility,
-          current_filter: req.body.current_filter
-        }
+        $set: req.body
       }
       db.collection('filters').findOneAndUpdate(query, update)
         .then(r => res.sendStatus(200))
