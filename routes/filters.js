@@ -13,7 +13,18 @@ MongoClient.connect(config.dbUrl)
         }
         db.collection('filters')
           .findOne(query)
-          .then(doc => res.json(doc))
+          .then(doc => {
+            doc = {
+              manager_id: doc.manager_id,
+              price_range: doc.price_range,
+              review_score: doc.review_score,
+              facility: doc.facility,
+              current_filter: doc.current_filter,
+              score: doc.score,
+              facility: doc.facility
+            };
+            res.json(doc);
+          })
           .catch(err => res.sendStatus(500));
       } else {
         res.sendStatus(400);
@@ -22,8 +33,16 @@ MongoClient.connect(config.dbUrl)
 
     router.post('/update', (req, res) => {
       const query = { manager_id: +req.body.manager_id }
+      doc = {
+        price_range: req.body.price_range,
+        review_score: req.body.review_score,
+        facility: req.body.facility,
+        current_filter: req.body.current_filter,
+        score: req.body.score,
+        facility: req.body.facility
+      };
       const update = {
-        $set: req.body
+        $set: doc
       }
       db.collection('filters').findOneAndUpdate(query, update)
         .then(r => res.sendStatus(200))
